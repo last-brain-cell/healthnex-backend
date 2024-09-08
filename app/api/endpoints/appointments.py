@@ -28,3 +28,6 @@ async def get_appointments(
     appointments = result.all()
 
     return appointments
+
+
+# @router.get("/{appointment_id}", response_model=, status_code=status.HTTP_200_OK)
