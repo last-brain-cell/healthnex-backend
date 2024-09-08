@@ -162,6 +162,7 @@ class Appointment(Base):
         Enum(AppointmentStatus), nullable=False
     )
     speciality: Mapped[Speciality] = mapped_column(Enum(Speciality), nullable=False)
+    notes: Mapped[str] = mapped_column(String(500), nullable=True)
 
     practitioner_id: Mapped[str] = mapped_column(
         ForeignKey("practitioner_table.contact", ondelete="CASCADE"),

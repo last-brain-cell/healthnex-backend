@@ -1,3 +1,5 @@
+import asyncio
+
 import httpx
 from datetime import datetime
 
@@ -7,7 +9,8 @@ from app.models import Base, Practitioner, Patient
 from app.schemas.patient import Gender
 from app.schemas.practitioner import Speciality
 
-DATABASE_URL = "postgresql://rDGJeEDqAz:XsPQhCoEfOQZueDjsILetLDUvbvSxAMnrVtgVZpmdcSssUgbvs@localhost:5455/default_db"
+# DATABASE_URL = "postgresql://rDGJeEDqAz:XsPQhCoEfOQZueDjsILetLDUvbvSxAMnrVtgVZpmdcSssUgbvs@localhost:5455/default_db"
+DATABASE_URL = "postgresql://healthnex:healthnex123@139.59.40.43:5432/healthnex"
 
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
@@ -24,47 +27,45 @@ async def register_user(email: str, password: str):
         )
         if response.status_code == 201:
             print(f"User {email} registered successfully.")
-            user_ids.append(response.json()["user_id"])
+            user_id = response.json()["user_id"]
+            user_ids.append(user_id)
         else:
             print(f"Failed to register user {email}: {response.json()}")
 
 
-# Adding Users
-def add_users():
+async def register_all_users():
     users = [
-        "user1@example.com",
-        "user2@example.com",
-        "user3@example.com",
-        "user4@example.com",
-        "user5@example.com",
-        "user6@example.com",
-        "user7@example.com",
-        "user8@example.com",
-        "user9@example.com",
-        "user10@example.com",
-        "user11@example.com",
-        "user12@example.com",
-        "user13@example.com",
-        "user14@example.com",
-        "user15@example.com",
-        "user16@example.com",
-        "user17@example.com",
-        "user18@example.com",
-        "user19@example.com",
-        "user20@example.com",
+        "naadkd@gmail.com",
+        "shreshthurohit@gmail.com",
+        "priyanshgoel05@gmail.com",
+        "lala@gmail.com",
+        "shivangbirla9999@gmail.com",
+        "dikshaverma@gmail.com",
+        "sauravkumar@gmail.com",
+        "aakashmehta@yahoo.com",
+        "smitasharma@outlook.com",
+        "rohitgupta@gmail.com",
+        "kiranbhatia@yahoo.com",
+        "ankitverma@gmail.com",
+        "nikhilrana@hotmail.com",
+        "purnimajain@gmail.com",
+        "adityakumar@yahoo.com",
+        "arvindsharma@outlook.com",
+        "tanvigupta@gmail.com",
+        "manishpatel@yahoo.com",
+        "sonalmittal@gmail.com",
+        "mukeshraj@gmail.com",
     ]
 
-    for email in users:
-        import asyncio
-
-        asyncio.run(register_user(email, "password"))
+    # Run all user registration tasks concurrently
+    await asyncio.gather(*[register_user(email, "password") for email in users])
 
 
 # Adding Doctors
 def add_doctors():
     doctors = [
         Practitioner(
-            contact="1234567890",
+            contact="7722087410",
             name="Dr. John Doe",
             gender=Gender.M,
             address="123 Elm Street",
@@ -222,7 +223,11 @@ def add_patients():
 
 if __name__ == "__main__":
     Base.metadata.create_all(engine)  # Create tables if not already created
-    add_users()
+
+    # Register users and wait for it to complete
+    asyncio.run(register_all_users())
+
+    # After registration, add doctors and patients
     add_doctors()
     add_patients()
 

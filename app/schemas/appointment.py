@@ -20,3 +20,6 @@ class AppointmentType(Enum):
     checkup = "checkup"
     follow_up = "follow up"
     emergency = "emergency"
+
+
+# class AppointmentSchema:

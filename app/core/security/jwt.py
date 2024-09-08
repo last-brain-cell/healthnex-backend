@@ -29,7 +29,7 @@ def create_jwt_token(user_id: str) -> JWTToken:
 
     token_payload = JWTTokenPayload(
         iss=get_settings().security.jwt_issuer,
-        sub=user_id,
+        sub=str(user_id),
         exp=exp,
         iat=iat,
     )
