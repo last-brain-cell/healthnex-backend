@@ -1,6 +1,6 @@
 import uuid
 from pytz import timezone
-from datetime import datetime
+from datetime import datetime, UTC
 
 from sqlalchemy import (
     BigInteger,
@@ -35,13 +35,9 @@ class Base(DeclarativeBase):
     def __tablename__(cls) -> str:
         return cls.__name__.lower()
 
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=datetime.now(timezone("Asia/Kolkata"))
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True),
-        default=datetime.now(timezone("Asia/Kolkata")),
-        onupdate=datetime.now(timezone("Asia/Kolkata")),
+        DateTime(timezone=True), onupdate=datetime.now(UTC)
     )
 
 
@@ -352,9 +348,6 @@ class Prescription(Base):
         ForeignKey("appointment_table.id", ondelete="CASCADE")
     )
     appointment: Mapped["Appointment"] = relationship(back_populates="prescription")
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=datetime.now
-    )
 
     medications: Mapped[list["Medication"]] = relationship(
         secondary=medication_prescription_association_table
