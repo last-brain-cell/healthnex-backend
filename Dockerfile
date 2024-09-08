@@ -25,5 +25,6 @@ CMD bash init.sh && \
     /venv/bin/uvicorn app.main:app --app-dir /build --host 0.0.0.0 --port 8000 --loop uvloop
 #    /venv/bin/uvicorn app.main:app --app-dir /build --host 0.0.0.0 --workers 2 --port 8000 --loop uvloop
 
+# TODO: IMPLEMENT MULTIPLE WORKERS
 # Expose the application port
 EXPOSE 8000
