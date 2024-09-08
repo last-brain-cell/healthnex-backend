@@ -1,10 +1,13 @@
 from fastapi import APIRouter
 
 from app.api import api_messages
-from app.api.endpoints import auth, users
+from app.api.endpoints import auth, users, appointments, prescriptions
 
 auth_router = APIRouter()
 auth_router.include_router(auth.router, prefix="/auth", tags=["auth"])
+appointments.router.include_router(appointments.router, prefix="/appointments")
+appointments.router.include_router(appointments.router, prefix="/appointments")
+prescriptions.router.include_router(prescriptions.router, prefix="/prescriptions")
 
 api_router = APIRouter(
     responses={
